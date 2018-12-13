@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th= "http://www.thymeleaf.org" >
+
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <!------ Include the above in your HEAD tag ---------->
 </head>
 <body>
-$END$
+     <div th:if="${#lists.isEmpty(users_searched)}" style="padding: 55px">
+         <div  class="alert alert-danger" role="alert" id="alert4">
+             sorry this name is not found please try again !!
+         </div>
+
+     </div>
+
+<div th:if="${not #lists.isEmpty(users_searched)}" style="padding: 55px">
+    <table class="table table-hover " th:action="@{/search}" th:object="${users_searched}" method="get">
+        <thead class="thead">
+        <tr>
+
+            <th scope="col">name</th>
+            <th scope="col">password</th>
+            <th scope="col">id</th>
+            <th scope="col">operations </th>
+            <th scope="col"> bloquage </th>
+        </tr>
+        </thead>
+        <tr th:each="user : ${users_searched}" >
+
+
+            <td th:text="${user.nom}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.id}"></td>
+            <td><a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-wrench"></span> operations </a> </td>
+            <td> <a th:href="@{'/Delete/' + ${user.id}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> supprimer</a></td>
+
+        </tr>
+
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

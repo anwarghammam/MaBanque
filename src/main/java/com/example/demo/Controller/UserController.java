@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 
 @Controller
@@ -52,8 +53,37 @@ public String login(@ModelAttribute("User")User user  , Model model, HttpSession
       session.removeAttribute("nom");
         return "redirect:/";
     }
-
+ @GetMapping("/allusers")
+    public String GetAllUsers(Model model) {
+        ArrayList<User> users = repository.findAll() ;
+        model.addAttribute("users",users) ;
+        return "Users" ;
+ }
+    @RequestMapping (value = "/Delete/{id}", method= RequestMethod.GET)
+    public String deleteUserById(@PathVariable String id){
+   // System.out.println(id);
+       repository.deleteUserById(id);
+        return("redirect:/allusers") ;
 }
+
+    @PostMapping("/search")
+     public String search(@RequestParam String search, Model model) {
+                  System.out.println(search);
+            ArrayList<User> users_searched = repository.findByNom(search);
+            model.addAttribute("users_searched" ,users_searched);
+            return("UsersSearch") ;
+        }
+    @RequestMapping (value = "/Proprietes/{id}", method= RequestMethod.GET)
+    public String find(@PathVariable String id){
+        // System.out.println(id);
+        repository.findById(id);
+        return("user_proporties") ;
+    }}
+
+
+
+git
+
 
 
 
